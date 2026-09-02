@@ -1,0 +1,113 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n1. Add");
+            System.out.println("2. Subtract");
+            System.out.println("3. Multiply");
+            System.out.println("4. Divide");
+            System.out.println("5. Square");
+            System.out.println("6. Square Root");
+            System.out.println("7. Sin");
+            System.out.println("8. Cos");
+            System.out.println("9. Tan");
+            System.out.println("10. Natural Log");
+            System.out.println("11. Exponential e");
+            System.out.println("12. Exit");
+            System.out.println("13. Secrect");
+            System.out.print("Choose option: ");
+
+            int choice = sc.nextInt();
+
+            if (choice == 12) {
+                running = false;
+                System.out.println("Bye");
+                break;
+            }
+
+            if (choice == 13) {
+                System.out.println("Calculating the meaning of life...");
+                System.out.println("your computer is now poop");
+                continue;
+            }
+
+            double num1 = 0;
+            double num2 = 0;
+            double result = 0;
+
+            if (choice >= 1 && choice <= 4) {
+                System.out.print("Enter first number: ");
+                if (!sc.hasNextDouble()) {
+                    System.out.println("Not a number");
+                    sc.next();
+                    continue;
+                }
+                num1 = sc.nextDouble();
+
+                System.out.print("Enter second number: ");
+                if (!sc.hasNextDouble()) {
+                    System.out.println("Not a number");
+                    sc.next();
+                    continue;
+                }
+                num2 = sc.nextDouble();
+            } else if (choice >= 5 && choice <= 11) {
+                System.out.print("Enter number: ");
+                if (!sc.hasNextDouble()) {
+                    System.out.println("Not a number");
+                    sc.next();
+                    continue;
+                }
+                num1 = sc.nextDouble();
+            } else {
+                System.out.println("Invalid choice");
+                continue;
+            }
+
+            if (choice == 1) {
+                result = num1 + num2;
+            } else if (choice == 2) {
+                result = num1 - num2;
+            } else if (choice == 3) {
+                result = num1 * num2;
+            } else if (choice == 4) {
+                if (num2 == 0) {
+                    System.out.println("Cannot divide by zero");
+                    continue;
+                }
+                result = num1 / num2;
+            } else if (choice == 5) {
+                result = num1 * num1;
+            } else if (choice == 6) {
+                if (num1 < 0) {
+                    System.out.println("Cannot take square root of negative");
+                    continue;
+                }
+                result = Math.sqrt(num1);
+            } else if (choice == 7) {
+                result = Math.sin(num1);
+            } else if (choice == 8) {
+                result = Math.cos(num1);
+            } else if (choice == 9) {
+                result = Math.tan(num1);
+            } else if (choice == 10) {
+                if (num1 <= 0) {
+                    System.out.println("Log only works with positive numbers");
+                    continue;
+                }
+                result = Math.log(num1);
+            } else if (choice == 11) {
+                result = Math.exp(num1);
+            }
+
+            System.out.println("Result: " + result);
+            System.out.println("----------------------------------------------");
+        }
+
+        sc.close();
+    }
+}
