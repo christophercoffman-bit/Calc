@@ -1,0 +1,112 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Adventure {
+    static String currentRoom = "hallway";
+    static ArrayList<String> inventory = new ArrayList<>();
+    static boolean gameOver = false;
+    static Scanner input = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        System.out.println("=== DARK TOWER ===");
+        System.out.println("Type: north, south, east, west, take key, look, inventory, quit");
+        System.out.println();
+
+        while (!gameOver) {
+            showRoom();
+            System.out.print("What do you want to do? ");
+            String command = input.nextLine().toLowerCase().trim();
+            handleInput(command);
+            checkWinOrLose();
+        }
+
+        input.close();
+    }
+
+    static void showRoom() {
+        System.out.println();
+        if (currentRoom.equals("hallway")) {
+            System.out.println("You are in a dark hallway.");
+            System.out.println("Exits: north (library), south (dungeon), east (exit)");
+        } else if (currentRoom.equals("library")) {
+            System.out.println("You are in a dusty library.");
+            System.out.println("Exits: south (hallway)");
+            if (!inventory.contains("key")) {
+                System.out.println("There is a key on the table.");
+            }
+        } else if (currentRoom.equals("dungeon")) {
+            System.out.println("You are in a damp dungeon.");
+            System.out.println("Exits: north (hallway)");
+            System.out.println("There is a deep pit here.");
+        } else if (currentRoom.equals("exit")) {
+            System.out.println("You are at the tower exit.");
+            System.out.println("Exits: west (hallway)");
+        }
+    }
+
+    static void handleInput(String command) {
+        if (command.equals("north")) {
+            if (currentRoom.equals("hallway")) {
+                currentRoom = "library";
+            } else if (currentRoom.equals("dungeon")) {
+                currentRoom = "hallway";
+            } else {
+                System.out.println("You can't go that way.");
+            }
+        } else if (command.equals("south")) {
+            if (currentRoom.equals("hallway")) {
+                currentRoom = "dungeon";
+            } else if (currentRoom.equals("library")) {
+                currentRoom = "hallway";
+            } else {
+                System.out.println("You can't go that way.");
+            }
+        } else if (command.equals("east")) {
+            if (currentRoom.equals("hallway")) {
+                currentRoom = "exit";
+            } else {
+                System.out.println("You can't go that way.");
+            }
+        } else if (command.equals("west")) {
+            if (currentRoom.equals("exit")) {
+                currentRoom = "hallway";
+            } else {
+                System.out.println("You can't go that way.");
+            }
+        } else if (command.equals("take key")) {
+            if (currentRoom.equals("library") && !inventory.contains("key")) {
+                inventory.add("key");
+                System.out.println("You picked up the key.");
+            } else {
+                System.out.println("There is no key here.");
+            }
+        } else if (command.equals("look")) {
+            showRoom();
+        } else if (command.equals("inventory")) {
+            if (inventory.isEmpty()) {
+                System.out.println("You are not carrying anything.");
+            } else {
+                System.out.println("You have: " + inventory);
+            }
+        } else if (command.equals("quit")) {
+            System.out.println("Game ended.");
+            gameOver = true;
+        } else {
+            System.out.println("I don't understand that.");
+        }
+    }
+
+    static void checkWinOrLose() {
+        if (currentRoom.equals("exit") && inventory.contains("key")) {
+            System.out.println();
+            System.out.println("You use the key and escape! YOU WIN!");
+            gameOver = true;
+        }
+        if (currentRoom.equals("dungeon")) {
+            System.out.println();
+            System.out.println("You fall into the pit. GAME OVER.");
+            gameOver = true;
+        }
+    }
+}
+
